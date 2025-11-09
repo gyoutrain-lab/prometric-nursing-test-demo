@@ -1,180 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Nursing Prometric Simulation Test</title>
-<style>
-/* General Reset */
-* {margin:0; padding:0; box-sizing:border-box;}
-html, body {height:100%; font-family: Arial, sans-serif; overflow-x:hidden; transition: opacity 1s ease;}
-body.fade-out {opacity:0;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Nursing Prometric Simulation Test</title>
+    <style>
+        /* Reset and basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Gradient background */
-body {background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #d4fc79, #96e6a1); background-size:400% 400%; animation: gradientShift 15s ease infinite; position: relative;}
-@keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+        body, html {
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f8fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-/* Particles */
-.particles{position:absolute; width:100%; height:100%; overflow:hidden; z-index:0; top:0; left:0;}
-.particle{position:absolute; background-color:rgba(255,255,255,0.7); border-radius:50%; pointer-events:none; animation: floatParticles linear infinite;}
-@keyframes floatParticles{0%{transform:translateY(0) translateX(0);opacity:1;}100%{transform:translateY(-100vh) translateX(50px);opacity:0;}}
+        /* Main content wrapper */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
 
-/* Main landing content */
-.main-content{position:relative; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; width:100%; text-align:center; padding:20px; z-index:1;}
-.landing-image-container{position:absolute; bottom:0; left:0; width:100%; height:50vh; overflow:hidden; border-top-left-radius:30px; border-top-right-radius:30px; z-index:1;}
-.landing-image-container::after{content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0)); pointer-events:none;}
-.landing-image{width:100%; height:100%; object-fit:cover; transform:translateZ(0); will-change: transform;}
+        /* Image section - lower half page */
+        .landing-image {
+            width: 100%;
+            max-height: 50%;
+            object-fit: cover;
+        }
 
-/* Title box */
-.title-box{background-color: rgba(173,216,230,0.95); padding:25px 50px; border-radius:12px; box-shadow:0 12px 25px rgba(0,0,0,0.3); animation: fadeInUp 1.2s ease forwards; max-width:90%; z-index:2; transition: transform 0.3s ease;}
-.title-box:hover{transform:scale(1.03);}
-.title-box h1{font-size:30px; font-weight:bold; margin-bottom:12px; color:#000; text-shadow:1px 1px 2px rgba(0,0,0,0.25);}
-.title-box p{font-size:16px; margin:6px 0; color:#000;}
+        /* Title box */
+        .title-box {
+            position: absolute;
+            bottom: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(173, 216, 230, 0.9); /* light blueish */
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
 
-/* Start button */
-.start-btn{display:inline-block; margin-top:20px; padding:14px 35px; font-size:18px; color:#fff; background-color:#d32f2f; border:none; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:bold; transition:all 0.3s ease; box-shadow:0 6px 18px rgba(0,0,0,0.25),0 0 10px rgba(211,47,47,0.4); animation: glowPulse 2s infinite alternate, bounceIn 1s ease forwards; z-index:2;}
-.start-btn:hover{background-color:#b71c1c; transform:translateY(-3px); box-shadow:0 10px 25px rgba(0,0,0,0.3),0 0 20px rgba(211,47,47,0.6);}
-@keyframes glowPulse{0%{box-shadow:0 6px 18px rgba(0,0,0,0.25),0 0 10px rgba(211,47,47,0.3);}50%{box-shadow:0 6px 18px rgba(0,0,0,0.25),0 0 18px rgba(211,47,47,0.5);}100%{box-shadow:0 6px 18px rgba(0,0,0,0.25),0 0 12px rgba(211,47,47,0.4);}}
-@keyframes bounceIn{0%{transform:translateY(50px); opacity:0;}60%{transform:translateY(-10px); opacity:1;}80%{transform:translateY(5px);}100%{transform:translateY(0);}}
-@keyframes fadeInUp{0%{opacity:0; transform:translateY(50px);}100%{opacity:1; transform:translateY(0);}}
+        .title-box h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000;
+        }
 
-/* Footer */
-footer{text-align:center; padding:15px; color:#d32f2f; font-size:14px; background-color:transparent; z-index:2;}
+        .title-box p {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #000;
+        }
 
-/* Test container */
-#testContainer{display:none; max-width:700px; margin:50px auto; padding:20px; background-color:#fff; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.2);}
-.question{font-size:20px; margin-bottom:20px;}
-.answers{display:flex; flex-direction:column; gap:15px;}
-.answer-btn{padding:12px 20px; font-size:16px; border:none; border-radius:8px; cursor:pointer; transition: transform 0.2s, background-color 0.2s;}
-.answer-btn:hover{transform:scale(1.05);}
-.correct{background-color:#4caf50;color:#fff;}
-.incorrect{background-color:#f44336;color:#fff;}
+        /* Button */
+        .start-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #d32f2f; /* red */
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
 
-/* Responsive */
-@media (max-width:768px){.title-box h1{font-size:24px;}.title-box p{font-size:14px;}.start-btn{font-size:16px; padding:12px 30px;}.landing-image-container{border-top-left-radius:20px; border-top-right-radius:20px;}}
-</style>
+        .start-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            color: #d32f2f; /* red */
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .title-box h1 {
+                font-size: 22px;
+            }
+
+            .title-box p {
+                font-size: 14px;
+            }
+
+            .start-btn {
+                font-size: 16px;
+                padding: 10px 25px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Particles -->
-<div class="particles" id="particles"></div>
-
-<!-- Landing Page -->
-<div class="main-content" id="landingPage">
-    <div class="title-box">
-        <h1>Demo Nursing Prometric Simulation Test</h1>
-        <p>Demo Session - Adapted from Prometric/SMLE and ENCLEX based materials</p>
-        <p>Just make your own way to get a better career in nursing for the Nurse Technician Certificate</p>
-        <a href="#" class="start-btn" id="startBtn">Start the Test</a>
+    <div class="main-content">
+        <div class="title-box">
+            <h1>Demo Nursing Prometric Simulation Test</h1>
+            <p>Demo Session - Adapted from Prometric/SMLE and ENCLEX based materials</p>
+            <p>Just make your own way to get a better career in nursing for the Nurse Technician Certificate</p>
+            <a href="https://script.google.com/macros/s/AKfycbwvKxmFkKqMAMqqZ49B47AvOHOSy8a4qAebICHYW0_I_SUY2k8i9xh5D1EddAG-OO5n/exec" class="start-btn">Start the Test</a>
+        </div>
+        <img src="https://github.com/gyoutrain-lab/prometric-nursing-test-demo/blob/main/icon17%20(1).jpg?raw=true" alt="Demo Nursing Test" class="landing-image">
     </div>
-    <div class="landing-image-container">
-        <img src="https://github.com/gyoutrain-lab/prometric-nursing-test-demo/blob/main/icon17%20(1).jpg?raw=true" class="landing-image">
-    </div>
-</div>
-<footer>Prepared by: Giyono Asfarrasyid, ETK Yogyakarta</footer>
-
-<!-- Test Container -->
-<div id="testContainer">
-    <div class="question" id="questionText"></div>
-    <div class="answers" id="answerButtons"></div>
-</div>
-
-<!-- Sounds -->
-<audio id="hoverSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3" preload="auto"></audio>
-<audio id="clickSound" src="https://freesound.org/data/previews/342/342756_3248244-lq.mp3" preload="auto"></audio>
-<audio id="correctSound" src="https://freesound.org/data/previews/269/269128_5121236-lq.mp3" preload="auto"></audio>
-<audio id="incorrectSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3" preload="auto"></audio>
-
-<script>
-// Particles
-const particleContainer = document.getElementById('particles');
-for(let i=0;i<40;i++){
-    const p=document.createElement('div');p.classList.add('particle');
-    const size=Math.random()*6+4;
-    p.style.width=p.style.height=`${size}px`;
-    p.style.left=`${Math.random()*100}%`;
-    p.style.bottom=`${Math.random()*100}%`;
-    p.style.animationDuration=`${10+Math.random()*20}s`;
-    p.style.animationDelay=`${Math.random()*10}s`;
-    particleContainer.appendChild(p);
-}
-
-// Parallax landing image
-window.addEventListener('scroll',()=>{document.querySelector('.landing-image').style.transform='translateY('+window.pageYOffset*0.3+'px)';});
-
-// Landing page start button
-const startBtn=document.getElementById('startBtn');
-const hoverSound=document.getElementById('hoverSound');
-const clickSound=document.getElementById('clickSound');
-const landingPage=document.getElementById('landingPage');
-const testContainer=document.getElementById('testContainer');
-
-startBtn.addEventListener('mouseover',()=>{hoverSound.currentTime=0;hoverSound.play();});
-startBtn.addEventListener('click',e=>{
-    e.preventDefault();
-    clickSound.currentTime=0; clickSound.play();
-    landingPage.classList.add('fade-out');
-    setTimeout(()=>{
-        landingPage.style.display='none';
-        testContainer.style.display='block';
-        loadQuestion(0);
-    },800);
-});
-
-// Questions array
-const questions=[
-    {
-        q:"What is the normal heart rate of a healthy adult?",
-        answers:["60-100 bpm","40-60 bpm","100-120 bpm","120-140 bpm"],
-        correct:0
-    },
-    {
-        q:"Normal body temperature in Celsius?",
-        answers:["36-37°C","35-36°C","37-38°C","34-35°C"],
-        correct:0
-    },
-    {
-        q:"Which vitamin is essential for blood clotting?",
-        answers:["Vitamin K","Vitamin C","Vitamin D","Vitamin A"],
-        correct:0
-    }
-];
-
-let currentQuestion=0;
-
-const correctSound=document.getElementById('correctSound');
-const incorrectSound=document.getElementById('incorrectSound');
-const questionText=document.getElementById('questionText');
-const answerButtons=document.getElementById('answerButtons');
-
-function loadQuestion(index){
-    currentQuestion=index;
-    const q=questions[index];
-    questionText.innerText=q.q;
-    answerButtons.innerHTML='';
-    q.answers.forEach((ans,i)=>{
-        const btn=document.createElement('button');
-        btn.classList.add('answer-btn');
-        btn.innerText=ans;
-        btn.addEventListener('click',()=>{
-            if(i===q.correct){
-                correctSound.currentTime=0; correctSound.play();
-                btn.classList.add('correct');
-            }else{
-                incorrectSound.currentTime=0; incorrectSound.play();
-                btn.classList.add('incorrect');
-            }
-            // Disable all buttons
-            answerButtons.querySelectorAll('button').forEach(b=>b.disabled=true);
-            // Next question after delay
-            setTimeout(()=>{
-                if(currentQuestion+1<questions.length) loadQuestion(currentQuestion+1);
-                else questionText.innerText="Test Completed! Thank you."; answerButtons.innerHTML='';
-            },1200);
-        });
-        answerButtons.appendChild(btn);
-    });
-}
-</script>
+    <footer>
+        Prepared by: Giyono Asfarrasyid, ETK Yogyakarta
+    </footer>
 </body>
 </html>
